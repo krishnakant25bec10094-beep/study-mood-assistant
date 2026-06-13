@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Study Friend</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { background-color: #030712; font-family: sans-serif; }
+        .yellow-glow { text-shadow: 0 0 10px rgba(251, 191, 36, 0.4); }
+        /* Smooth fade in for new items */
+        .fade-up { animation: fadeUp 0.4s ease-out forwards; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-200 pb-10">
+
+    <header class="border-b border-slate-900 bg-black/50 backdrop-blur-md sticky top-0 z-50 py-4 mb-6">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="bg-amber-500 p-2 rounded-lg">
+                    <i data-lucide="sparkles" class="text-black w-5 h-5"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-white">Your Study Assistant</h1>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <nav class="flex items-center gap-4 text-xs font-bold text-slate-400 mr-2">
+                    <a href="index.html" class="text-amber-500 border-b-2 border-amber-500 pb-1">Dashboard</a>
+                    <a href="lesson.html" class="hover:text-white transition-colors">Current Lesson</a>
+                    <a href="history.html" class="hover:text-white transition-colors">My History</a>
+                </nav>
+                <div class="text-[11px] font-bold text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 uppercase tracking-widest">
+                    Ready to help
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6">
+        
+        <div class="bg-gradient-to-r from-slate-900 to-black border border-slate-800 p-8 rounded-3xl mb-8 shadow-2xl relative overflow-hidden">
+            <div class="relative z-10">
+                <h2 class="text-3xl font-extrabold text-white mb-2">Hello! Let's make learning easier today. ✨</h2>
+                <p class="text-slate-400 max-w-2xl">I'm here to break down hard topics, keep you organized, and make sure you don't get too tired while studying.</p>
+            </div>
+            <div class="absolute right-0 top-0 w-64 h-full bg-amber-500/5 blur-3xl rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="space-y-6">
+                
+                <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl space-y-5">
+                    <h3 class="text-amber-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="settings" class="w-4 h-4"></i> 1. Set the Scene
+                    </h3>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-400">What are you studying?</label>
+                        <input type="text" id="topicInput" oninput="updateEverything()" class="w-full bg-black border border-slate-700 rounded-xl p-3 text-sm focus:border-amber-500 outline-none transition-all" placeholder="e.g. Math, History, Science..." value="Math">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-400">How much energy do you have?</label>
+                        <select id="energyLevel" onchange="updateEverything()" class="w-full bg-black border border-slate-700 rounded-xl p-3 text-sm focus:border-amber-500 outline-none cursor-pointer">
+                            <option value="low">I'm pretty tired / Keep it simple</option>
+                            <option value="medium" selected>I'm doing okay / Normal pace</option>
+                            <option value="high">I'm full of energy / Let's go fast</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-400">Are you getting stuck?</label>
+                        <select id="stuckLevel" onchange="updateEverything()" class="w-full bg-black border border-slate-700 rounded-xl p-3 text-sm focus:border-amber-500 outline-none cursor-pointer">
+                            <option value="no" selected>No, I'm moving along well</option>
+                            <option value="yes">Yes, I'm finding it difficult</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl space-y-4">
+                    <h3 class="text-amber-500 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i> 2. Talk to Me
+                    </h3>
+                    <p class="text-[11px] text-slate-500">Tell me how you feel (e.g. "I'm stressed" or "I'm confused")</p>
+                    <textarea id="moodChat" oninput="updateEverything()" rows="3" class="w-full bg-black border border-slate-700 rounded-xl p-3 text-sm focus:border-amber-500 outline-none resize-none" placeholder="Type here..."></textarea>
+                </div>
+            </div>
+
+            <div class="lg:col-span-1 space-y-6">
+                
+                <div class="bg-gradient-to-b from-amber-500/10 to-transparent border border-amber-500/20 p-6 rounded-2xl relative overflow-hidden">
+                    <h3 class="text-white text-sm font-bold mb-4 flex items-center gap-2">
+                        <i data-lucide="brain-circuit" class="w-4 h-4 text-amber-500"></i> AI Mood Detector
+                    </h3>
+                    <div id="moodStatus" class="flex items-center gap-3 mb-4">
+                        </div>
+                    <div class="bg-black/40 p-4 rounded-xl border border-white/5">
+                        <p id="moodReasoning" class="text-xs text-slate-300 leading-relaxed italic"></p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl h-fit">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-amber-500 text-xs font-bold uppercase tracking-widest">My Advice</span>
+                        <span id="topicBadge" class="text-[10px] bg-white/5 px-2 py-1 rounded text-white"></span>
+                    </div>
+                    <p id="aiMessage" class="text-sm text-slate-200 leading-relaxed mb-6"></p>
+                    
+                    <div class="border-t border-slate-800 pt-4 flex justify-around">
+                        <div class="text-center">
+                            <span class="block text-[10px] text-slate-500 uppercase font-bold">Focus</span>
+                            <span id="focusScore" class="text-amber-500 font-mono text-sm">85%</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-[10px] text-slate-500 uppercase font-bold">Stress</span>
+                            <span id="stressScore" class="text-emerald-400 font-mono text-sm">Low</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl min-h-[400px]">
+                    <div class="flex justify-between items-center mb-6 border-b border-slate-800 pb-4">
+                        <h3 class="text-white text-sm font-bold flex items-center gap-2">
+                            <i data-lucide="list-checks" class="w-4 h-4 text-amber-500"></i> Your Study Plan
+                        </h3>
+                    </div>
+
+                    <div id="taskContainer" class="space-y-3">
+                        </div>
+
+                    <div class="mt-6 pt-6 border-t border-slate-800">
+                        <div class="flex gap-2">
+                            <input type="text" id="newTask" class="flex-1 bg-black border border-slate-700 rounded-lg px-3 py-2 text-xs focus:border-amber-500 outline-none" placeholder="Add your own step...">
+                            <button onclick="addUserTask()" class="bg-amber-500 hover:bg-amber-400 text-black px-3 py-2 rounded-lg font-bold text-xs transition-colors cursor-pointer">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // Start icons
+        lucide.createIcons();
+
+        function addUserTask() {
+            const input = document.getElementById('newTask');
+            if(!input.value.trim()) return;
+            
+            const container = document.getElementById('taskContainer');
+            const div = document.createElement('div');
+            div.className = "flex items-start gap-3 p-3 bg-black/40 border border-slate-800 rounded-xl fade-up";
+            div.innerHTML = `
+                <input type="checkbox" class="mt-1 accent-amber-500">
+                <div class="flex-1">
+                    <span class="text-xs text-slate-300 block">${input.value}</span>
+                    <a href="lesson.html" class="inline-flex items-center gap-1 text-[10px] text-amber-400/70 hover:text-amber-400 font-bold mt-1 transition-colors">
+                        <i data-lucide="book-open" class="w-3 h-3"></i> Open Study Material &rarr;
+                    </a>
+                </div>
+            `;
+            container.appendChild(div);
+            input.value = "";
+            lucide.createIcons();
+        }
+
+        function updateEverything() {
+            const topic = document.getElementById('topicInput').value || "this topic";
+            const energy = document.getElementById('energyLevel').value;
+            const stuck = document.getElementById('stuckLevel').value;
+            const chat = document.getElementById('moodChat').value.toLowerCase();
+
+            const moodStatus = document.getElementById('moodStatus');
+            const moodReasoning = document.getElementById('moodReasoning');
+            const aiMessage = document.getElementById('aiMessage');
+            const taskContainer = document.getElementById('taskContainer');
+            const topicBadge = document.getElementById('topicBadge');
+            const stressScore = document.getElementById('stressScore');
+
+            topicBadge.innerText = topic;
+
+            // 1. MOOD DETECTION LOGIC
+            let mood = "Happy";
+            let color = "text-emerald-400";
+            let icon = "smile";
+            let reasoning = "You seem to be doing great! Let's keep the momentum going.";
+
+            if (chat.includes("tired") || chat.includes("sleepy") || energy === "low") {
+                mood = "Tired";
+                color = "text-blue-400";
+                icon = "battery-low";
+                reasoning = "I noticed you're feeling a bit drained. I'm going to make the tasks shorter and easier.";
+                stressScore.innerText = "Medium";
+                stressScore.className = "text-blue-400 font-mono text-sm";
+            } else if (chat.includes("stress") || chat.includes("worried") || chat.includes("panic") || chat.includes("crying")) {
+                mood = "Stressed";
+                color = "text-rose-400";
+                icon = "frown";
+                reasoning = "I can tell you're stressed. Let's take a deep breath. We will go very slowly and focus on small wins.";
+                stressScore.innerText = "High";
+                stressScore.className = "text-rose-400 font-mono text-sm";
+            } else if (chat.includes("confused") || chat.includes("don't know") || stuck === "yes") {
+                mood = "Confused";
+                color = "text-amber-400";
+                icon = "help-circle";
+                reasoning = "You're feeling a bit lost. That's totally okay! I'll break the hard parts down into simple steps.";
+                stressScore.innerText = "Medium";
+                stressScore.className = "text-amber-400 font-mono text-sm";
+            } else {
+                stressScore.innerText = "Low";
+                stressScore.className = "text-emerald-400 font-mono text-sm";
+            }
+
+            moodStatus.innerHTML = `
+                <div class="bg-black p-2 rounded-lg border border-slate-800 ${color}">
+                    <i data-lucide="${icon}" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-tighter">Current Mood</div>
+                    <div class="text-sm font-bold ${color}">${mood}</div>
+                </div>
+            `;
+            moodReasoning.innerText = reasoning;
+
+            // 2. AI ADVICE MESSAGE
+            if (mood === "Stressed") {
+                aiMessage.innerText = `Don't worry about the whole book right now. Let's just look at one small part of ${topic}. I've picked out the easiest thing for you to start with. Just try for 5 minutes, okay?`;
+            } else if (mood === "Tired") {
+                aiMessage.innerText = `Since your energy is low, let's just do a quick review of ${topic}. We won't do anything new or hard. Just a quick check-in to keep your brain fresh.`;
+            } else if (mood === "Confused") {
+                aiMessage.innerText = `Getting stuck on ${topic} is actually how you learn! I've simplified the plan to help you find exactly where the confusion is starting. Let's tackle it together.`;
+            } else {
+                aiMessage.innerText = `You're in a great head space for ${topic}! This is the perfect time to try some harder practice questions or finish that chapter you started.`;
+            }
+
+            // 3. GENERATE THE PLAN STEPS WITH LINKS
+            let steps = [];
+            if (mood === "Stressed" || mood === "Tired") {
+                steps = [`Read 1 page of ${topic}`, `Watch a 2-minute video`, `Take a 5-minute water break` ];
+            } else if (mood === "Confused") {
+                steps = [`Write down exactly what part of ${topic} is confusing`, `Look at a picture or diagram of it`, `Try one very easy example` ];
+            } else {
+                steps = [`Review yesterday's notes`, `Solve 3 practice problems about ${topic}`, `Summarize what you learned in your own words` ];
+            }
+
+            taskContainer.innerHTML = '';
+            steps.forEach((text, i) => {
+                const div = document.createElement('div');
+                div.className = "flex items-start gap-3 p-4 bg-black/40 border border-slate-800 rounded-xl hover:border-amber-500/30 transition-all cursor-pointer group fade-up";
+                div.innerHTML = `
+                    <input type="checkbox" id="t${i}" class="mt-1 accent-amber-500">
+                    <div class="flex-1">
+                        <label for="t${i}" class="text-xs text-slate-300 group-hover:text-white cursor-pointer block leading-relaxed">${text}</label>
+                        <a href="lesson.html" class="inline-flex items-center gap-1 text-[10px] text-amber-400/70 hover:text-amber-400 font-bold mt-1.5 transition-colors">
+                            <i data-lucide="book-open" class="w-3 h-3"></i> Open Study Material &rarr;
+                        </a>
+                    </div>
+                `;
+                taskContainer.appendChild(div);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Run once at start
+        updateEverything();
+    </script>
+</body>
+</html>
